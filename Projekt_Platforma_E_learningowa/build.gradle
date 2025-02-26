@@ -1,0 +1,68 @@
+plugins {
+    id 'org.springframework.boot' version '2.7.9'
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'  // Dodaj tę linię
+    id 'java'
+    id 'org.jetbrains.kotlin.jvm'
+}
+
+group = 'org.example'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Spring Boot starter
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+    // Spring Cloud dependencies
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'  // Eureka Client
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-zuul'  // API Gateway (Zuul)
+    implementation 'org.springframework.cloud:spring-cloud-starter-config'  // Centralizacja konfiguracji
+
+    // WebSocket
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+
+    // Spring Data for JPA (PostgreSQL, MySQL)
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.postgresql:postgresql'  // PostgreSQL, dla MySQL użyj 'mysql:mysql-connector-java'
+
+    // Security (JWT, OAuth2)
+    implementation 'org.springframework.security:spring-security-web'
+    implementation 'org.springframework.security:spring-security-config'
+    implementation 'io.jsonwebtoken:jjwt:0.11.5'  // JWT do autentykacji
+
+    // Messaging (RabbitMQ / Kafka) - w przypadku komunikacji asynchronicznej
+    implementation 'org.springframework.kafka:spring-kafka'  // Jeśli używasz Kafka
+    implementation 'org.springframework.boot:spring-boot-starter-amqp'  // Jeśli używasz RabbitMQ
+
+    // Monitoring (Prometheus, Grafana)
+    implementation 'io.micrometer:micrometer-registry-prometheus'  // Do monitorowania z Prometheus
+
+    // Logging
+    implementation 'org.springframework.boot:spring-boot-starter-logging'
+
+    // Testowanie
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testImplementation 'org.mockito:mockito-core:3.8.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+}
+
+dependencyManagement {
+    imports {
+        mavenBom 'org.springframework.cloud:spring-cloud-dependencies:2021.0.0' // Użyj odpowiedniej wersji Spring Cloud
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
+kotlin {
+    jvmToolchain(23)
+}
