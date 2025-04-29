@@ -1,0 +1,67 @@
+services:
+  usermicroservice:
+    image: "statlad/user-microservice"
+    container_name: usermicroservice
+    ports:
+      - "8081:8080"
+    depends_on:
+      - user-db
+      - eureka
+      - rabbit
+    volumes:
+      - ./user_service/target:/app
+  quizmicroservice:
+    image: "afrumu/quiz-microservice"
+    container_name: quizmicroservice
+    ports:
+      - "8080:8080"
+    depends_on:
+      - quiz-db
+      - eureka
+      - rabbit
+    volumes:
+      - ./quizeservice/target:/app
+  eureka:
+    image: "statlad/eureka"
+    container_name: eureka
+    ports:
+      - "8761:8761"
+
+  rabbit:
+    hostname: rabbit
+    container_name: rabbit
+    image: "rabbitmq:3-management"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbit-database:/var/lib/rabbitmq/
+
+  user-db:
+    image: "postgres:latest"
+    container_name: user-db
+    ports:
+      - "5400:5432"
+    environment:
+      POSTGRES_USER: "admin"
+      POSTGRES_PASSWORD: "admin"
+      POSTGRES_DB: "users"
+    volumes:
+      - user-database:/var/lib/postgresql/data
+
+  quiz-db:
+    image: "postgres:latest"
+    container_name: quiz-db
+    ports:
+      - "5401:5432"
+    environment:
+      POSTGRES_USER: "admin"
+      POSTGRES_PASSWORD: "admin"
+      POSTGRES_DB: "quizzes"
+    volumes:
+      - quizzes-database:/var/lib/postgresql/data
+
+volumes:
+  user-database:
+  quizzes-database:
+  rabbit-database:

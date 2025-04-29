@@ -1,0 +1,30 @@
+application:
+  name: users
+  version: 1.0
+  title: Users
+spring:
+  rabbitmq:
+    host: rabbit
+    port: 5672
+    username: guest
+    password: guest
+  application:
+    name: users-microservice
+  cache:
+    type: caffeine
+    spec: initialCapacity=100, maximumSize=500, expireAfterAccess=600s
+  datasource:
+    url: jdbc:postgresql://user-db:5432/users
+    username: admin
+    password: admin
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka:8761/eureka/
+
+
